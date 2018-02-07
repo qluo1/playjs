@@ -1,10 +1,10 @@
 
-import _ from 'lodash';
-import React from 'react';
-import ReactDOM from 'react-dom';
-import App from './components/app.jsx';
+import _ from 'lodash'
+import React from 'react'
+import ReactDOM from 'react-dom'
+import App from './components/app.jsx'
 
-ReactDOM.render(<App />, document.getElementById('root'));
+ReactDOM.render(<App />, document.getElementById('root'))
 
 /*
 function component() {
@@ -15,7 +15,7 @@ function component() {
      element.innerHTML = _.join(['Hello', 'webpack'], ' ');
 
       return element;
-    }
+  }
 
   document.body.appendChild(component());
-  */
+*/
