@@ -1,29 +1,42 @@
 // webpack.config
 //
-const path = require('path');
+const path = require('path')
+var webpack = require("webpack")
 
 module.exports = {
-    entry: './src/index.js',
+  entry: './src/index.js',
 
-    output: {
-        filename: 'bundle.js',
-        path: path.resolve(__dirname, 'dist')
-     },
+  output: {
+    filename: 'bundle.js',
+    sourceMapFilename: 'bundle.map',
+    path: path.resolve(__dirname, 'dist')
+  },
 
-    devServer: {
-          contentBase: path.join(__dirname, "dist"),
-          compress: true,
-          host: '0.0.0.0',
-          port: 9000,
-          disableHostCheck: true
+  devServer: {
+    contentBase: path.join(__dirname, 'dist'),
+    compress: true,
+    host: '0.0.0.0',
+    port: 9000,
+    disableHostCheck: true
 
-    },
+  },
 
-    module: {
+  devtool: '#source-map',
+  module: {
 
-     loaders: [
-               { test: /\.js$/, loader: 'babel-loader', exclude: /node_modules/ },
-               { test: /\.jsx$/, loader: 'babel-loader', exclude: /node_modules/ }
-     ]
-    }
-};
+    loaders: [
+      { test: /\.js$/, loader: 'babel-loader', exclude: /node_modules/ },
+      { test: /\.jsx$/, loader: 'babel-loader', exclude: /node_modules/ }
+    ]
+  },
+
+  plugins: [
+  new webpack.optimize.UglifyJsPlugin({
+    sourceMap: true,
+    warning: false,
+    mangle: true
+  })
+
+  ]
+
+}
