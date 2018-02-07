@@ -3,7 +3,7 @@
  **/
 import React from 'react'
 
-/* select 
+/* select
 
 // old style createReactClass
 
@@ -11,18 +11,18 @@ import createReactClass from 'create-react-class'
 
 var MySelect = createReactClass({
 
-  getInitialState: function(){ 
+  getInitialState: function(){
     return {selected: false} 	 //this.state.selected = false;
   },
 
 	select: function(event){
 		if(event.target.textContent === this.state.selected){//remove selection
-			this.setState({selected: false}) 
+			this.setState({selected: false})
 			//update state
 		}else{
 		//add selection
 			this.setState({selected: event.target.textContent.trim()}) //update state
-		}   
+		}
 	},
 
   render: function () {
@@ -41,7 +41,7 @@ var MySelect = createReactClass({
   }
 })
 
-// option 
+// option
 var MyOption = createReactClass({
 
  render: function () {
@@ -60,21 +60,20 @@ var MyOption = createReactClass({
 })
 */
 
-class MySelect extends React.Component{
-
-  getInitialState (){ 
-    return {selected: false} 	 //this.state.selected = false;
+class MySelect extends React.Component {
+  getInitialState () {
+    return {selected: false} 	 // this.state.selected = false;
   }
 
-	select (event){
-		if(event.target.textContent === this.state.selected){//remove selection
-			this.setState({selected: false}) 
-			//update state
-		}else{
-		//add selection
-			this.setState({selected: event.target.textContent.trim()}) //update state
-		}   
-	}
+  select (event) {
+    if (event.target.textContent === this.state.selected) { // remove selection
+      this.setState({selected: false})
+      // update state
+    } else {
+      // add selection
+      this.setState({selected: event.target.textContent.trim()}) // update state
+    }
+  }
 
   render () {
     var mySelectStyle = {
@@ -92,26 +91,22 @@ class MySelect extends React.Component{
   }
 }
 
-
 /* option */
-class MyOption extends React.Component{
-
+class MyOption extends React.Component {
   render () {
- 
-     var selectedStyle = { backgroundColor: 'red', color: '#fff', cursor: 'pointer' };
-     var unSelectedStyle = { cursor: 'pointer' };
- 
-     console.log(`value: ${this.props.value}  ${this.props.state} ${this.props.value == this.props.state}`)
- 
-     if(this.props.state == this.props.value){
-       return <div style={selectedStyle} onClick={this.props.select}> {this.props.value}</div> // react div element, via JSX
-     }else{
-       return <div style={unSelectedStyle} onClick={this.props.select}> {this.props.value}</div> // react div element, via JSX
-     }
-   }
- }
- 
- 
+    var selectedStyle = { backgroundColor: 'red', color: '#fff', cursor: 'pointer' }
+    var unSelectedStyle = { cursor: 'pointer' }
+
+    console.log(`value: ${this.props.value}  ${this.props.state} ${this.props.value == this.props.state}`)
+
+    if (this.props.state == this.props.value) {
+      return <div style={selectedStyle} onClick={this.props.select}> {this.props.value}</div> // react div element, via JSX
+    } else {
+      return <div style={unSelectedStyle} onClick={this.props.select}> {this.props.value}</div> // react div element, via JSX
+    }
+  }
+}
+
 export default class App extends React.Component {
   render () {
     return (
