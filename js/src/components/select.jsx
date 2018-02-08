@@ -1,4 +1,4 @@
-/*
+/* react enlightment 1: what is react
  *
  */
 import React from 'react'
@@ -16,11 +16,12 @@ var MySelect = createReactClass({
 			//update state
 		}else{
 		//add selection
-			this.setState({selected: event.target.textContent.trim()}) //update state
+			this.setState({selected: event.target.textContent}) //update state
 		}
 	},
 
   render: function () {
+
     var mySelectStyle = {
       border: '1px solid #999',
       display: 'inline-block',
@@ -47,9 +48,9 @@ var MyOption = createReactClass({
     console.log(`value: ${this.props.value}  ${this.props.state} ${this.props.value == this.props.state} `)
 
     if(this.props.state == this.props.value){
-      return <div style={selectedStyle} onClick={this.props.select}> {this.props.value}</div> // react div element, via JSX
+      return <div style={selectedStyle} onClick={this.props.select}>{this.props.value}</div> // react div element, via JSX
     }else{
-      return <div style={unSelectedStyle} onClick={this.props.select}> {this.props.value}</div> // react div element, via JSX
+      return <div style={unSelectedStyle} onClick={this.props.select}>{this.props.value}</div> // react div element, via JSX
     }
   }
 })
