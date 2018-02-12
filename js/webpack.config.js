@@ -1,7 +1,7 @@
 // webpack.config
 //
 const path = require('path')
-var webpack = require("webpack")
+var webpack = require('webpack')
 
 module.exports = {
   entry: './src/index.js',
@@ -26,16 +26,22 @@ module.exports = {
 
     loaders: [
       { test: /\.js$/, loader: 'babel-loader', exclude: /node_modules/ },
-      { test: /\.jsx$/, loader: 'babel-loader', exclude: /node_modules/ }
+      { test: /\.jsx$/, loader: 'babel-loader', exclude: /node_modules/ },
+      {
+        test: /\.css_fake$/,
+        use: [
+          { loader: 'style-loader' }
+        ]
+      }
     ]
   },
 
   plugins: [
-  new webpack.optimize.UglifyJsPlugin({
-    sourceMap: true,
-    warning: false,
-    mangle: true
-  })
+    new webpack.optimize.UglifyJsPlugin({
+      sourceMap: true,
+      warning: false,
+      mangle: true
+    })
 
   ]
 
