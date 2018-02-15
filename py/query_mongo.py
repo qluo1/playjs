@@ -6,6 +6,7 @@ from pprint import pprint
 import pymongo
 import pytz
 from conf import settings
+# from . import utils
 
 
 mongo_client = pymongo.MongoClient("mongodb://dss_client:dss_client@%s:%s" % settings.MONGO_CFG)
@@ -38,14 +39,14 @@ def query_db_info():
     return info
 
 
+# global reference
 db_info = query_db_info()
 
 
 def tail_om2(name, col_name="dss", **kw):
-    """ tail engine record
+    """ tail om2/dss or engine record
 
     """
-
     now = datetime.now()
     sod = datetime(now.year, now.month, now.day, 0, 0, 0)
     sod_utc = sod.astimezone(pytz.utc)
@@ -62,10 +63,9 @@ def tail_om2(name, col_name="dss", **kw):
     colls = _db["collections"]
     assert col_name in colls, "Error: db {} has no collection {}".format(name, col_name)
 
-    direct = pymongo.ASCENDING
-
+    direct = pymongo.DESCENDING
     if head:
-        direct = pymongo.DESCENDING
+        direct = pymongo.ASCENDING
 
     cur = mongo_client.get_database(name)\
                       .get_collection(col_name)\
@@ -74,12 +74,65 @@ def tail_om2(name, col_name="dss", **kw):
                             sort=[('timestamp', direct)])
 
     res = [r for r in cur]
+    res.sort(key=lambda x: x['timestamp'])
+
     return res
+
+
+def tail_vk(name, **kw):
+    """ tail vk
+
+    """
+    now = datetime.now()
+    sod = datetime(now.year, now.month, now.day, 0, 0, 0)
+    sod_utc = sod.astimezone(pytz.utc)
+
+    last = kw.get("last", 10)
+    head = kw.get("head", False)
+    date = kw.get("date", sod_utc)  # default since SOD
+
+    vk_dbs = dict(filter(lambda x: x[1].get("vk") is True, db_info.items()))
+
+    assert name in vk_dbs, "Error name: {} not found in dbs: {}".format(name, list(vk_dbs.keys()))
+
+    direct = pymongo.DESCENDING
+    if head:
+        direct = pymongo.ASCENDING
+
+    cur = mongo_client.get_database(name)\
+                      .get_collection("vk")\
+                      .find({"timestamp": {"$gt": date}},
+                            limit=int(last),
+                            sort=[('timestamp', direct)])
+
+    res = [r for r in cur]
+    res.sort(key=lambda x: x['timestamp'])
+
+    return res
+
+
+def engine_summary(data):
+    """  return summary line of engine
+
+    """
+    def _(x):
+        res = {'msgId': x['msgId'],
+               'table': x['msg']['tableName'],
+               'timestamp': x['timestamp'].isoformat(),
+               }
+
+        if "orderId" in x:
+            res["orderId"] = x["orderId"]
+        return res
+
+    return list(map(_, data))
 
 
 if __name__ == "__main__":
     pprint(query_db_info())
-    data = tail_om2("PPSJPCEA","engine", last=5)
+    data = tail_om2("PPSJPCEA", "engine", head=True,)
+    import pdb;pdb.set_trace()
+    data = engine_summary(data)
 
     pprint(data)
     print(len(data))

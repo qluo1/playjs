@@ -6,6 +6,7 @@ import importlib
 from functools import wraps
 from flask import request, current_app, jsonify
 import gevent
+from om2CompleteCatalog import om2CompleteCatalog
 
 log = logging.getLogger(__name__)
 
@@ -85,3 +86,11 @@ def convert(data):
         return type(data)(map(convert, data))
     else:
         return data
+
+
+def _t(x):
+    k, v = x
+    return v['id'], k
+
+
+IVTable_Lookup = dict(map(_t, om2CompleteCatalog["tables"].items()))
