@@ -1,0 +1,11 @@
+########################
+gevent
+greenlet
+pyzmq==16.0.2
+## flask
+Flask
+MarkupSafe
+itsdangerous
+pymongo
+ujson
+six
