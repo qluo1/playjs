@@ -41,7 +41,7 @@ def query_db_info():
 db_info = query_db_info()
 
 
-def tail_engine(name, **kw):
+def tail_om2(name, col_name="dss", **kw):
     """ tail engine record
 
     """
@@ -58,9 +58,9 @@ def tail_engine(name, **kw):
 
     assert name in om2_dbs, "Error name: {} not found in dbs: {}".format(name, list(om2_dbs.keys()))
 
-    db = om2_dbs[name]
-    colls = db["collections"]
-    assert "engine" in colls, "Error: db {} no engine {}".format(name, db)
+    _db = om2_dbs[name]
+    colls = _db["collections"]
+    assert col_name in colls, "Error: db {} has no collection {}".format(name, col_name)
 
     direct = pymongo.ASCENDING
 
@@ -68,7 +68,7 @@ def tail_engine(name, **kw):
         direct = pymongo.DESCENDING
 
     cur = mongo_client.get_database(name)\
-                      .get_collection("engine")\
+                      .get_collection(col_name)\
                       .find({"timestamp": {"$gt": date}},
                             limit=int(last),
                             sort=[('timestamp', direct)])
@@ -79,7 +79,7 @@ def tail_engine(name, **kw):
 
 if __name__ == "__main__":
     pprint(query_db_info())
-    data = tail_engine("PPSJPCEA", last=5)
+    data = tail_om2("PPSJPCEA","engine", last=5)
 
     pprint(data)
     print(len(data))
