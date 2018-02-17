@@ -3,7 +3,7 @@
  **/
 import React from 'react'
 
-import {MySelect, MyOption} from './select.jsx'
+import { MySelect, MyOption } from './select.jsx'
 
 /*
 class MySelect extends React.Component {
@@ -73,9 +73,10 @@ class MyOption extends React.Component {
 export default class App extends React.Component {
   render () {
     return (
-      <div style={{textAlign: 'center'}}>
+      <div className='.container' style={{ textAlign: 'center' }}>
         <h1>Hello World</h1>
         <MySelect />
-      </div>)
+      </div>
+    )
   }
 }
